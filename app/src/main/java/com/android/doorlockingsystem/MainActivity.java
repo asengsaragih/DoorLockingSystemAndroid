@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(getResources().getColor(R.color.lock));
 
         mButtonClicked();
+
+        //testing commit
     }
 
     private void mButtonClicked() {
