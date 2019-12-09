@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         mLockView.setVisibility(View.GONE);
                         getWindow().setStatusBarColor(getResources().getColor(R.color.unlock));
                         mToastMessage("Berhasil Membuka Pintu");
+                        mVibrateShow(500);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -109,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                         mLockView.setVisibility(View.VISIBLE);
                         getWindow().setStatusBarColor(getResources().getColor(R.color.lock));
                         mToastMessage("Berhasil Menutup Pintu");
+                        mVibrateShow(500);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -118,6 +123,16 @@ public class MainActivity extends AppCompatActivity {
                         mToastMessage("Gagal Menutup Pintu : " + e.getMessage());
                     }
                 });
+    }
+
+    private void mVibrateShow(int length) {
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(length, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            vibrator.vibrate(length);
+        }
     }
 
     private void mToastMessage(String message) {
